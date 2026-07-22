@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Big Data Customer Segmentation — Tarun Sadarla</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0F2D54;--blue:#1B5FA8;--sky:#3A9BD5;--sky-light:#EBF4FD;--sky-pale:#F4F9FF;--white:#FFFFFF;--slate:#3D5166;--muted:#6B829A;--border:#D0DFF0;--border-light:#E8F0FA;--text:#253347;--green:#17836B;--green-bg:#EAF7F3;--amber:#B45309;--amber-bg:#FEF3C7;--red:#B91C1C;--shadow-sm:0 1px 4px rgba(15,45,84,0.07);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--white);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-weight:400;line-height:1.75;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:60px;background:rgba(255,255,255,0.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-light);box-shadow:var(--shadow-sm);}
+.nav-back{display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;font-weight:500;color:var(--blue);text-decoration:none;}
+.nav-back:hover{color:var(--navy);}
+.nav-title{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;}
+#hero{min-height:55vh;display:flex;align-items:flex-end;padding:100px 3rem 4rem;background:linear-gradient(150deg,#0A2540 0%,#134B8C 50%,#1A6FA8 100%);position:relative;overflow:hidden;}
+.hero-pattern{position:absolute;inset:0;opacity:0.05;background-image:radial-gradient(circle at 1px 1px,white 1px,transparent 0);background-size:32px 32px;}
+.hero-content{position:relative;max-width:800px;}
+.hero-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(150,205,255,0.85);margin-bottom:0.7rem;opacity:0;animation:fUp 0.7s ease 0.1s forwards;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3.2rem);font-weight:600;line-height:1.1;color:#FFFFFF;letter-spacing:-0.02em;margin-bottom:1rem;opacity:0;animation:fUp 0.7s ease 0.25s forwards;}
+h1 em{font-style:italic;color:#7DD3FC;}
+.hero-sub{font-size:0.96rem;color:rgba(215,232,252,0.85);max-width:640px;line-height:1.82;margin-bottom:1.5rem;opacity:0;animation:fUp 0.7s ease 0.38s forwards;}
+.hero-sub strong{color:#FFFFFF;font-weight:600;}
+.hero-meta{display:flex;flex-wrap:wrap;gap:0.55rem;opacity:0;animation:fUp 0.7s ease 0.5s forwards;}
+.meta-tag{font-family:'IBM Plex Mono',monospace;font-size:0.64rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.28rem 0.7rem;border:1px solid rgba(255,255,255,0.22);color:rgba(200,225,255,0.78);background:rgba(255,255,255,0.07);}
+.meta-tag.hi{border-color:rgba(255,255,255,0.42);color:#FFFFFF;background:rgba(255,255,255,0.14);}
+@keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.page-content{max-width:1040px;margin:0 auto;padding:5rem 3rem;}
+.sec-label{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--blue);margin-bottom:0.45rem;font-weight:500;}
+.sec-label.green{color:var(--green);} .sec-label.amber{color:var(--amber);}
+h2{font-family:'Playfair Display',serif;font-size:clamp(1.45rem,2.6vw,2rem);color:var(--navy);letter-spacing:-0.02em;margin-bottom:0.4rem;line-height:1.2;}
+.h2-sub{font-size:0.94rem;color:var(--muted);margin-bottom:1.75rem;max-width:640px;line-height:1.7;}
+h3{font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:0.4rem;margin-top:2rem;}
+p{color:var(--text);font-size:0.93rem;line-height:1.85;margin-bottom:0.9rem;}
+p strong{color:var(--navy);font-weight:600;}
+hr.divider{border:none;border-top:1px solid var(--border-light);margin:3.5rem 0;}
+.proj-section{padding:2.5rem 0;border-top:1px solid var(--border-light);}
+.proj-section:first-of-type{border-top:none;padding-top:0;}
+.proj-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:1rem;}
+.proj-num{font-family:'IBM Plex Mono',monospace;font-size:0.63rem;letter-spacing:0.22em;color:var(--blue);text-transform:uppercase;min-width:90px;flex-shrink:0;}
+.proj-title{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--navy);}
+.proj-tag{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-left:0.5rem;}
+.rtable{width:100%;border-collapse:collapse;margin:1.25rem 0;font-size:0.83rem;border:1px solid var(--border);}
+.rtable th{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);padding:0.7rem 0.9rem;text-align:left;background:var(--sky-pale);border-bottom:1px solid var(--border);}
+.rtable td{padding:0.7rem 0.9rem;border-bottom:1px solid var(--border-light);color:var(--text);}
+.rtable td:first-child{font-weight:600;color:var(--navy);}
+.rtable tr:hover td{background:var(--sky-pale);}
+.td-good{color:var(--green);font-weight:500;}
+.callout{padding:1.2rem 1.5rem;border-left:4px solid var(--blue);background:var(--sky-pale);margin:1.5rem 0;}
+.callout p{margin:0;font-size:0.87rem;line-height:1.7;color:var(--text);}
+.callout strong{color:var(--navy);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:1.5rem 0;}
+.contrib-list{list-style:none;margin:1rem 0;}
+.contrib-list li{display:flex;gap:0.75rem;padding:0.8rem 1rem;border:1px solid var(--border);background:var(--white);margin-bottom:0.4rem;font-size:0.86rem;line-height:1.6;color:var(--text);transition:background 0.15s;}
+.contrib-list li:hover{background:var(--sky-pale);}
+.ci{color:var(--blue);flex-shrink:0;font-weight:500;}
+.learned-box{padding:1.5rem 1.75rem;border:1px solid var(--border);border-left:4px solid var(--blue);background:var(--sky-pale);margin:2rem 0;}
+.learned-box h4{color:var(--navy);margin-bottom:0.65rem;font-size:0.9rem;font-weight:600;}
+.learned-box p{font-size:0.86rem;margin-bottom:0.6rem;color:var(--text);}
+.learned-box p:last-child{margin-bottom:0;}
+.stack-list{display:flex;flex-wrap:wrap;gap:0.4rem;margin:1rem 0;}
+.stk{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;padding:0.25rem 0.65rem;border:1px solid var(--border);color:var(--slate);background:var(--white);}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:1.25rem 0;}
+.rg-cell{background:var(--white);padding:1.1rem;text-align:center;}
+.rg-val{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--blue);line-height:1;margin-bottom:0.2rem;}
+.rg-label{font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.rg-sub{font-size:0.68rem;color:var(--muted);margin-top:0.15rem;}
+.arch-block{padding:1.1rem 1.4rem;background:var(--sky-pale);border:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:0.75rem;line-height:1.85;color:var(--text);margin:1.25rem 0;overflow-x:auto;}
+.arch-block .comment{color:var(--muted);} .arch-block .kw{color:var(--blue);}
+.grid-display{font-family:'IBM Plex Mono',monospace;font-size:0.76rem;line-height:2;color:var(--text);background:var(--sky-pale);border:1px solid var(--border);padding:1.1rem 1.4rem;margin:1.25rem 0;white-space:pre;}
+.grid-display .val{color:var(--blue);}
+.tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0;}
+.tg-cell{background:var(--white);padding:1.1rem;text-align:center;}
+.tg-name{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:0.25rem;font-weight:500;}
+.tg-desc{font-size:0.78rem;color:var(--muted);line-height:1.55;}
+.rfm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0;}
+.rfm-cell{background:var(--white);padding:1.25rem;text-align:center;}
+.rfm-letter{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--blue);line-height:1;margin-bottom:0.25rem;}
+.rfm-word{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:0.35rem;}
+.rfm-desc{font-size:0.8rem;color:var(--text);line-height:1.55;}
+.stream-grid{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);margin:1.5rem 0;}
+.stream-cell{padding:1.5rem;border-right:1px solid var(--border-light);}
+.stream-cell:last-child{border-right:none;}
+.stream-tag{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:0.25rem;font-weight:500;}
+.stream-title{font-size:0.92rem;font-weight:600;color:var(--navy);margin-bottom:0.4rem;}
+.stream-desc{font-size:0.83rem;color:var(--slate);line-height:1.62;}
+.bottom-cta{background:var(--navy);padding:3rem 3rem;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;}
+.cta-left h3{font-family:'Playfair Display',serif;font-size:1.25rem;color:#FFFFFF;margin-bottom:0.35rem;}
+.cta-left p{font-size:0.86rem;color:rgba(180,215,255,0.8);margin:0;}
+.cta-btns{display:flex;gap:0.75rem;flex-wrap:wrap;}
+.btn-p{display:inline-flex;align-items:center;gap:0.45rem;padding:0.7rem 1.4rem;background:#FFFFFF;color:var(--navy);font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+.btn-p:hover{background:#EBF4FD;}
+.btn-s{display:inline-flex;align-items:center;gap:0.45rem;padding:0.7rem 1.4rem;border:1px solid rgba(255,255,255,0.32);color:rgba(255,255,255,0.82);font-size:0.78rem;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+.btn-s:hover{border-color:white;background:rgba(255,255,255,0.09);}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+@media(max-width:800px){nav{padding:0 1.25rem;} .nav-title{display:none;} #hero{padding:80px 1.25rem 3rem;} .page-content{padding:3rem 1.25rem;} .two-col,.stream-grid,.result-grid,.tool-grid,.rfm-grid{grid-template-columns:1fr;} .bottom-cta{flex-direction:column;padding:2rem 1.25rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-back">← Portfolio</a>
+  <span class="nav-title">Big Data Customer Segmentation</span>
+</nav>
+<section id="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">// Big Data · PySpark · RFM Analysis · AWS EMR</p>
+    <h1>Big Data <em>Customer Segmentation</em><br>— RFM Pipeline on AWS</h1>
+    <p class="hero-sub">541,909 e-commerce transactions analysed on <strong>AWS S3 + EMR</strong> using PySpark. Complete 60-cell EDA and RFM (Recency-Frequency-Monetary) feature engineering pipeline — the same distributed infrastructure used for clinical EHR cohort analysis and population health data pipelines.</p>
+    <div class="hero-meta"><span class="meta-tag hi">541K Transactions</span><span class="meta-tag hi">RFM Pipeline</span><span class="meta-tag hi">AWS S3 + EMR</span><span class="meta-tag">PySpark · Hadoop/YARN · AWS EMR</span></div>
+  </div>
+</section>
+<div class="page-content">
+
+<div class="reveal">
+  <p class="sec-label">Overview</p>
+  <h2>541,909 e-commerce transactions — RFM segmentation on AWS at distributed scale</h2>
+  <p class="h2-sub">My contribution: the complete 60-cell PySpark EDA and RFM feature engineering pipeline. The data engineering infrastructure mirrors clinical data pipelines — EHR records, PACS archives, and claims data have the same distributed compute pattern.</p>
+  <p>The entire pipeline runs on AWS: raw data on S3, computation on EMR Spark clusters, outputs saved back to S3. At 541,909 transactions, this exceeds what single-machine pandas can handle at full parallelism. PySpark on distributed EMR is the same infrastructure used for large-scale EHR cohort analysis and population health data pipelines.</p>
+  <div class="callout"><p><strong>Most operationally significant finding:</strong> A single customer (ID 16547) accounts for £1,772,220 — roughly 18% of all revenue from 541,909 transactions. This kind of concentration makes standard clustering approaches fragile without outlier handling. Analogous to outlier patients in clinical datasets (e.g., ICU readmissions): the presence of extreme cases requires deliberate decision-making about inclusion, not just preprocessing automation.</p></div>
+</div>
+
+<div class="result-grid reveal">
+  <div class="rg-cell"><div class="rg-val">541K</div><div class="rg-label">Transactions</div><div class="rg-sub">Dec 2010 – Dec 2011</div></div>
+  <div class="rg-cell"><div class="rg-val">£1.77M</div><div class="rg-label">Top Customer</div><div class="rg-sub">~18% of all revenue</div></div>
+  <div class="rg-cell"><div class="rg-val">AWS EMR</div><div class="rg-label">Platform</div><div class="rg-sub">S3 + Spark cluster</div></div>
+</div>
+
+<hr class="divider">
+
+<div class="reveal">
+  <p class="sec-label">RFM Pipeline</p>
+  <h2>Recency, Frequency, Monetary — the segmentation features</h2>
+</div>
+
+<div class="rfm-grid reveal">
+  <div class="rfm-cell">
+    <div class="rfm-letter">R</div><div class="rfm-word">Recency</div>
+    <div class="rfm-desc">Days since last purchase relative to dataset maximum. Lower = more recent = higher engagement value.</div>
+  </div>
+  <div class="rfm-cell">
+    <div class="rfm-letter">F</div><div class="rfm-word">Frequency</div>
+    <div class="rfm-desc">Count of unique invoice numbers per customer. High frequency = loyal, engaged customer relationship.</div>
+  </div>
+  <div class="rfm-cell">
+    <div class="rfm-letter">M</div><div class="rfm-word">Monetary</div>
+    <div class="rfm-desc">Total revenue (Quantity × UnitPrice) per customer. Identifies high-value vs low-value segments.</div>
+  </div>
+</div>
+
+<div class="learned-box reveal">
+  <h4>What this project built that transfers to clinical AI</h4>
+  <p><strong>Distributed computing on real cloud infrastructure:</strong> First project running actual Spark jobs on AWS EMR with multiple EC2 nodes and data on S3. Understanding how Spark's lazy evaluation, partitioning, and shuffle operations behave at scale versus single-node PySpark — the same infrastructure used for clinical data lake pipelines.</p>
+  <p><strong>Outlier detection as a business/clinical decision:</strong> When Customer 16547 accounts for 18% of all revenue, including or excluding them isn't a statistical decision — it's a domain decision. The same framing applies to clinical outliers: ICU readmissions, rare diagnoses, or extreme lab values. Data decisions have real-world consequences and should be made with domain reasoning, not just automated preprocessing.</p>
+  <p><strong>RFM as a segmentation framework:</strong> Building Recency/Frequency/Monetary features from raw transaction records in PySpark (groupBy + agg + join chains) made the data engineering behind a conceptually simple framework tangible. The same join logic appears in clinical cohort construction from EHR data.</p>
+</div>
+
+<div class="reveal">
+  <h3>My contribution</h3>
+  <ul class="contrib-list">
+    <li><span class="ci">▸</span>Complete 60-cell PySpark EDA — customer geography, product analysis, revenue trends, concentration analysis</li>
+    <li><span class="ci">▸</span>Full RFM feature engineering pipeline — Recency, Frequency, Monetary computation in PySpark, joined RFM DataFrame</li>
+    <li><span class="ci">▸</span>AWS pipeline execution — S3 data storage, EMR cluster computation, output saved to S3 for downstream clustering</li>
+  </ul>
+  <div class="stack-list">
+    <span class="stk">PySpark</span><span class="stk">AWS EMR</span><span class="stk">AWS S3</span><span class="stk">Hadoop/YARN</span><span class="stk">EC2</span><span class="stk">pandas</span>
+  </div>
+</div>
+
+</div>
+<div class="bottom-cta">
+  <div class="cta-left">
+    <h3>View PySpark EDA, RFM pipeline, and AWS architecture.</h3>
+    <p>60-cell analysis, RFM pipeline script, and AWS architecture diagram.</p>
+  </div>
+  <div class="cta-btns">
+    <a href="https://github.com/TarunSadarla2606/big-data-customer-segmentation" target="_blank" class="btn-p">GitHub →</a>
+    <a href="index.html#contact" class="btn-s">Get in Touch</a>
+  </div>
+</div>
+<script>
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),e.target.dataset.delay||0);obs.unobserve(e.target);}});},{threshold:0.06});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.dataset.delay=(i%4)*65;obs.observe(el);});
+</script>
+</body>
+</html>

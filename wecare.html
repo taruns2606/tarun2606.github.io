@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WECARE — Tarun Sadarla</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0F2D54;--blue:#1B5FA8;--sky:#3A9BD5;--sky-light:#EBF4FD;--sky-pale:#F4F9FF;--white:#FFFFFF;--slate:#3D5166;--muted:#6B829A;--border:#D0DFF0;--border-light:#E8F0FA;--text:#253347;--green:#17836B;--green-bg:#EAF7F3;--amber:#B45309;--amber-bg:#FEF3C7;--red:#B91C1C;--shadow-sm:0 1px 4px rgba(15,45,84,0.07);--shadow:0 4px 16px rgba(15,45,84,0.10);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--white);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-weight:400;line-height:1.75;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:60px;background:rgba(255,255,255,0.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-light);box-shadow:var(--shadow-sm);}
+.nav-back{display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;font-weight:500;color:var(--blue);text-decoration:none;transition:color 0.2s;}
+.nav-back:hover{color:var(--navy);}
+.nav-title{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;}
+#hero{min-height:65vh;display:flex;align-items:flex-end;padding:100px 3rem 4rem;background:linear-gradient(150deg,#0A2540 0%,#134B8C 50%,#1A6FA8 100%);position:relative;overflow:hidden;}
+.hero-pattern{position:absolute;inset:0;opacity:0.05;background-image:radial-gradient(circle at 1px 1px,white 1px,transparent 0);background-size:32px 32px;}
+.hero-content{position:relative;max-width:820px;}
+.hero-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(150,205,255,0.85);margin-bottom:0.8rem;opacity:0;animation:fUp 0.7s ease 0.1s forwards;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4.5vw,3.5rem);font-weight:600;line-height:1.08;color:#FFFFFF;letter-spacing:-0.02em;margin-bottom:1rem;opacity:0;animation:fUp 0.7s ease 0.25s forwards;}
+h1 em{font-style:italic;color:#7DD3FC;}
+.hero-sub{font-size:0.98rem;color:rgba(215,232,252,0.85);max-width:650px;line-height:1.85;margin-bottom:1.5rem;opacity:0;animation:fUp 0.7s ease 0.38s forwards;}
+.hero-sub strong{color:#FFFFFF;font-weight:600;}
+.hero-meta{display:flex;flex-wrap:wrap;gap:0.6rem;opacity:0;animation:fUp 0.7s ease 0.5s forwards;}
+.meta-tag{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border:1px solid rgba(255,255,255,0.25);color:rgba(200,225,255,0.8);background:rgba(255,255,255,0.08);}
+.meta-tag.hi{border-color:rgba(255,255,255,0.45);color:#FFFFFF;background:rgba(255,255,255,0.15);}
+@keyframes fUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+.page-content{max-width:1040px;margin:0 auto;padding:5rem 3rem;}
+.sec-label{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--blue);margin-bottom:0.45rem;font-weight:500;}
+.sec-label.green{color:var(--green);} .sec-label.amber{color:var(--amber);}
+h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,2.8vw,2.1rem);color:var(--navy);letter-spacing:-0.02em;margin-bottom:0.4rem;line-height:1.2;}
+.h2-sub{font-size:0.94rem;color:var(--muted);margin-bottom:1.75rem;max-width:640px;line-height:1.7;}
+h3{font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:0.45rem;margin-top:2rem;}
+p{color:var(--text);font-size:0.94rem;line-height:1.85;margin-bottom:0.9rem;}
+p strong{color:var(--navy);font-weight:600;}
+hr.divider{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
+
+.metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);margin:2.5rem 0;}
+.metric-cell{padding:1.5rem 1.25rem;text-align:center;border-right:1px solid var(--border-light);background:var(--white);}
+.metric-cell:last-child{border-right:none;}
+.metric-val{font-family:'Playfair Display',serif;font-size:2rem;color:var(--blue);line-height:1;margin-bottom:0.3rem;}
+.metric-val.green{color:var(--green);}
+.metric-label{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.metric-sub{font-size:0.7rem;color:var(--muted);margin-top:0.25rem;}
+
+.callout{padding:1.25rem 1.5rem;border-left:4px solid var(--blue);background:var(--sky-pale);margin:1.75rem 0;}
+.callout.green{border-left-color:var(--green);background:var(--green-bg);}
+.callout.warn{border-left-color:var(--amber);background:var(--amber-bg);}
+.callout p{margin:0;font-size:0.87rem;line-height:1.7;color:var(--text);}
+.callout strong{color:var(--navy);}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;margin:2rem 0;}
+.cmp-table{width:100%;border-collapse:collapse;margin:2rem 0;font-size:0.84rem;border:1px solid var(--border);}
+.cmp-table th{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);padding:0.75rem 1rem;text-align:left;background:var(--sky-pale);border-bottom:1px solid var(--border);}
+.cmp-table td{padding:0.7rem 1rem;border-bottom:1px solid var(--border-light);color:var(--text);}
+.cmp-table td:first-child{font-weight:600;color:var(--navy);}
+.cmp-table tr:hover td{background:var(--sky-pale);}
+.td-good{color:var(--green);font-weight:500;}
+.td-bad{color:var(--red);}
+
+.arch-block{padding:1.25rem 1.5rem;background:var(--sky-pale);border:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:0.76rem;line-height:1.9;color:var(--text);margin:1.5rem 0;overflow-x:auto;}
+.arch-block .comment{color:var(--muted);}
+.arch-block .kw{color:var(--blue);}
+
+.decision-table{width:100%;border-collapse:collapse;margin:1.25rem 0;font-size:0.84rem;border:1px solid var(--border);}
+.decision-table th{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);padding:0.75rem 1rem;text-align:left;background:var(--sky-pale);border-bottom:1px solid var(--border);}
+.decision-table td{padding:0.7rem 1rem;border-bottom:1px solid var(--border-light);color:var(--text);vertical-align:top;}
+.decision-table td:first-child{color:var(--navy);font-weight:500;}
+.decision-table td:last-child{color:var(--green);}
+.decision-table tr:hover td{background:var(--sky-pale);}
+
+.stack-list{display:flex;flex-wrap:wrap;gap:0.4rem;margin:1rem 0;}
+.stk{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;padding:0.25rem 0.65rem;border:1px solid var(--border);color:var(--slate);background:var(--white);}
+
+.contrib-list{list-style:none;margin:1rem 0;}
+.contrib-list li{display:flex;gap:0.8rem;padding:0.8rem 1rem;border:1px solid var(--border);background:var(--white);margin-bottom:0.4rem;font-size:0.86rem;line-height:1.6;color:var(--text);transition:background 0.15s;}
+.contrib-list li:hover{background:var(--sky-pale);}
+.ci{color:var(--blue);flex-shrink:0;font-weight:500;}
+
+.bottom-cta{background:var(--navy);padding:3.5rem 3rem;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;}
+.cta-left h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:#FFFFFF;margin-bottom:0.4rem;}
+.cta-left p{font-size:0.86rem;color:rgba(180,215,255,0.8);margin:0;}
+.cta-btns{display:flex;gap:0.75rem;flex-wrap:wrap;}
+.btn-p{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;background:#FFFFFF;color:var(--navy);font-size:0.79rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+.btn-p:hover{background:#EBF4FD;}
+.btn-s{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.85);font-size:0.79rem;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+.btn-s:hover{border-color:white;background:rgba(255,255,255,0.1);}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:800px){
+  nav{padding:0 1.25rem;} .nav-title{display:none;}
+  #hero{padding:80px 1.25rem 3rem;}
+  .page-content{padding:3rem 1.25rem;}
+  .metrics-row,.two-col{grid-template-columns:1fr;}
+  .bottom-cta{flex-direction:column;padding:2.5rem 1.25rem;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-back">← Portfolio</a>
+  <span class="nav-title">WECARE — Cardiac & Fall Detection</span>
+</nav>
+
+<section id="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">// Edge AI · Wearable · Cardiac & Fall Detection · On-Device</p>
+    <h1>WECARE — Wearable <em>Emergency</em><br>Cardiac &amp; Fall Response</h1>
+    <p class="hero-sub">
+      An on-device AI framework that fuses <strong>ECG and IMU sensor streams</strong> for real-time arrhythmia and fall detection — entirely on-device, no cloud dependency, no latency penalty. Inference at <strong>0.033ms</strong> vs a 40ms clinical threshold. Transforms wearables from passive monitors into active emergency responders.
+    </p>
+    <div class="hero-meta">
+      <span class="meta-tag hi">ECG F1: 0.9864</span>
+      <span class="meta-tag hi">Fall Recall: 96.5%</span>
+      <span class="meta-tag hi">0.033ms Inference</span>
+      <span class="meta-tag hi">8 Missed Falls / 228</span>
+      <span class="meta-tag">TorchScript · Edge Deploy · No Cloud</span>
+    </div>
+  </div>
+</section>
+
+<div class="page-content">
+
+  <!-- CLINICAL FIT -->
+  <div class="reveal">
+    <p class="sec-label">Clinical Context</p>
+    <h2>The problem with cloud-dependent wearables</h2>
+    <p class="h2-sub">In cardiac and fall emergencies, round-trip latency to the cloud is clinically unacceptable.</p>
+
+    <p>Current consumer wearables send sensor data to the cloud for processing before triggering alerts. In a cardiac arrhythmia event or fall, that round-trip introduces delays measured in seconds — clinically unacceptable when the intervention window is often under 2 minutes (the American Heart Association's 2-minute CPR initiation benchmark). WECARE eliminates this bottleneck entirely: the complete detection pipeline runs on-device, with inference times of 0.033ms — providing 1,200× safety margin against the 40ms real-time threshold.</p>
+
+    <p>The system fuses two complementary physiological signals: ECG for continuous cardiac arrhythmia detection and IMU (accelerometer + gyroscope) for real-time fall event classification. Both streams feed independent compact 1D CNNs whose outputs converge in a shared emergency alert engine deployed via TorchScript — fully portable, no runtime framework dependencies.</p>
+  </div>
+
+  <div class="metrics-row reveal">
+    <div class="metric-cell"><div class="metric-val">99.3%</div><div class="metric-label">ECG Accuracy</div><div class="metric-sub">MIT-BIH test set</div></div>
+    <div class="metric-cell"><div class="metric-val">0.9992</div><div class="metric-label">ECG AUC-ROC</div><div class="metric-sub">Arrhythmia detection</div></div>
+    <div class="metric-cell"><div class="metric-val green">8</div><div class="metric-label">Missed Falls</div><div class="metric-sub">of 228 — 96.5% recall</div></div>
+    <div class="metric-cell"><div class="metric-val green">0.033ms</div><div class="metric-label">Inference Latency</div><div class="metric-sub">vs 40ms threshold</div></div>
+  </div>
+
+  <div class="callout green reveal">
+    <p><strong>Critical safety metric — the 8 missed falls:</strong> Only 8 false negatives out of 228 fall instances. Missing a fall in an elderly patient who cannot call for help is far more dangerous than a false alarm. The detection threshold (0.65, not the default 0.5) was deliberately set to minimise missed falls — accepting more false alarms to ensure near-complete fall coverage. This threshold is a clinical safety decision, not a hyperparameter to optimise for accuracy.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ARCHITECTURE -->
+  <div class="reveal">
+    <p class="sec-label">Architecture</p>
+    <h2>Dual-stream 1D CNN — designed for the edge</h2>
+    <p class="h2-sub">Both streams share a 3-block architecture optimised for edge inference — compact enough to run on microcontroller-class hardware with significant latency headroom.</p>
+  </div>
+
+  <div class="arch-block reveal">
+    <span class="comment"># Shared 1D CNN architecture (both ECG and IMU streams)</span><br>
+    <span class="kw">Block 1:</span> Conv1D(in → 64,  kernel=7) → ReLU → MaxPool(2)<br>
+    <span class="kw">Block 2:</span> Conv1D(64 → 128, kernel=7) → ReLU → MaxPool(2)<br>
+    <span class="kw">Block 3:</span> Conv1D(128 → 256, kernel=5) → ReLU → MaxPool(2)<br>
+    Flatten → Dense(128) → Dropout → Dense(n_classes)<br><br>
+    <span class="comment"># ECG:  256-sample heartbeat segments at 360 Hz (MIT-BIH Arrhythmia Database)</span><br>
+    <span class="comment"># IMU:  100×9 sliding windows (3-axis accel + 3-axis gyro + 3-axis mag at 87–100 Hz)</span>
+  </div>
+
+  <div class="two-col reveal">
+    <div>
+      <h3>ECG stream — arrhythmia detection</h3>
+      <p style="font-size:0.88rem;"><strong>Dataset:</strong> MIT-BIH Arrhythmia Database (PhysioNet) — ~10,000 beat segments, 44 subjects, 360 Hz. Bandpass filter (0.5–40 Hz) → R-peak segmentation → 256-sample normalised windows.</p>
+      <p style="font-size:0.88rem;"><strong>Class imbalance:</strong> ~75% normal beats. Addressed with class weights + WeightedRandomSampler — prevents the model from ignoring arrhythmia beats without oversampling artefacts. In clinical ECG monitoring, missing an arrhythmia is the dangerous error, not a false alarm.</p>
+    </div>
+    <div>
+      <h3>IMU stream — fall detection</h3>
+      <p style="font-size:0.88rem;"><strong>Dataset:</strong> MobiFall_processed (Kaggle) — ~40,000 windows, 24 participants, 87–100 Hz. Butterworth filter → sliding window (100 samples × 9 channels) → StandardScaler per channel.</p>
+      <p style="font-size:0.88rem;"><strong>Threshold tuning:</strong> Set at 0.65 (vs default 0.50) to minimise missed falls. At 0.65: 8 FN, 93 FP, F1=0.8133. At 0.50: fewer false alarms but more missed falls — the wrong direction for a patient safety system. TFLite deployment failed due to dependency conflicts; TorchScript used — stable and self-contained.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- RESULTS -->
+  <div class="reveal">
+    <p class="sec-label">Performance</p>
+    <h2>Full results — both detection streams</h2>
+  </div>
+
+  <div class="two-col reveal">
+    <div>
+      <h3>ECG — arrhythmia detection (MIT-BIH)</h3>
+      <table class="cmp-table">
+        <thead><tr><th>Metric</th><th>Score</th></tr></thead>
+        <tbody>
+          <tr><td>Accuracy</td><td class="td-good">99.3%</td></tr>
+          <tr><td>Precision</td><td>98.3%</td></tr>
+          <tr><td>Recall (Sensitivity)</td><td class="td-good">98.9%</td></tr>
+          <tr><td>F1 Score</td><td class="td-good">0.9864</td></tr>
+          <tr><td>AUC-ROC</td><td class="td-good">0.9992</td></tr>
+          <tr><td>Confusion (TN/FP/FN/TP)</td><td>7,435 / 41 / 26 / 2,429</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3>IMU — fall detection (MobiFall, threshold=0.65)</h3>
+      <table class="cmp-table">
+        <thead><tr><th>Metric</th><th>Score</th></tr></thead>
+        <tbody>
+          <tr><td>Accuracy</td><td>91.8%</td></tr>
+          <tr><td>Precision</td><td>70.3%</td></tr>
+          <tr><td>Recall (Fall detection rate)</td><td class="td-good">96.5%</td></tr>
+          <tr><td>F1 Score</td><td>0.813</td></tr>
+          <tr><td>AUC-ROC</td><td>0.981</td></tr>
+          <tr><td>Missed falls</td><td class="td-good">8 of 228</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ENGINEERING DECISIONS -->
+  <div class="reveal" style="margin-top:2rem;">
+    <h3>Key engineering decisions — clinical reasoning behind each</h3>
+  </div>
+
+  <table class="decision-table reveal">
+    <thead><tr><th>Challenge</th><th>Decision</th><th>Clinical reasoning</th></tr></thead>
+    <tbody>
+      <tr><td>ECG class imbalance (~75% normal)</td><td>Class weights + WeightedRandomSampler</td><td>Arrhythmia beats are the clinically dangerous class — downweighting them for accuracy would produce a medically useless model</td></tr>
+      <tr><td>Over-regularisation reducing fall recall</td><td>Removed excess dropout; minimal regularisation</td><td>Recall on falls is the priority metric — regularisation that improves generalisation at the cost of recall is the wrong trade-off here</td></tr>
+      <tr><td>Detection threshold selection</td><td>Threshold = 0.65 (not default 0.50)</td><td>Minimises missed falls at the cost of more alarms — correct asymmetry for patient safety in elderly fall monitoring</td></tr>
+      <tr><td>TFLite deployment failure</td><td>TorchScript instead</td><td>Production stability over theoretical framework preference — TorchScript produces a self-contained model file with no runtime dependencies</td></tr>
+      <tr><td>Edge latency target</td><td>3-block 1D CNN; no RNN; no cloud</td><td>Sub-millisecond inference enables real-time response before the patient is moved — not achievable with cloud round-trip</td></tr>
+    </tbody>
+  </table>
+
+  <hr class="divider">
+
+  <!-- ATTRIBUTION -->
+  <div class="reveal">
+    <p class="sec-label">Attribution</p>
+    <h2>Two-person team project</h2>
+  </div>
+
+  <p class="reveal" style="font-size:0.88rem;color:var(--slate);line-height:1.7;padding:1rem 1.25rem;background:var(--sky-pale,#F4F9FF);border-left:3px solid var(--border);"><strong style="color:var(--navy);">My contribution:</strong> the full ECG pipeline — bandpass filter, R-peak segmentation, 1D CNN arrhythmia model, class imbalance handling, evaluation metrics, edge latency benchmarking, and TorchScript export. A teammate built the parallel IMU fall-detection pipeline and led the project proposal and final report.</p>
+
+  <div class="callout reveal">
+    <p><strong>Extended vision — AIMS proposal:</strong> The repository includes a grant-style AIMS proposal outlining the long-term system architecture: ECG + IMU + PPG fusion, automated emergency contact alerts, multi-actor coordination with bystanders and telemedicine platforms. Core innovation: a wearable orchestration engine addressing the pre-responder window (the critical minutes before emergency services arrive) where no existing clinical platform currently operates.</p>
+  </div>
+
+  <!-- STACK -->
+  <div class="reveal" style="margin-top:2rem;">
+    <h3>Technical stack</h3>
+    <div class="stack-list">
+      <span class="stk">PyTorch</span><span class="stk">TorchScript</span><span class="stk">1D CNN</span>
+      <span class="stk">MIT-BIH Arrhythmia Database</span><span class="stk">MobiFall (Kaggle)</span>
+      <span class="stk">scikit-learn</span><span class="stk">NumPy</span><span class="stk">matplotlib</span>
+      <span class="stk">PhysioNet</span><span class="stk">WeightedRandomSampler</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="bottom-cta">
+  <div class="cta-left">
+    <h3>View full code, AIMS proposal, and notebooks.</h3>
+    <p>ECG + IMU pipelines, TorchScript export, and extended AIMS document in the repository.</p>
+  </div>
+  <div class="cta-btns">
+    <a href="https://github.com/TarunSadarla2606/wecare-cardiac-fall-detection" target="_blank" class="btn-p">GitHub →</a>
+    <a href="index.html#contact" class="btn-s">Get in Touch</a>
+  </div>
+</div>
+
+<script>
+const obs=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){setTimeout(()=>entry.target.classList.add('visible'),entry.target.dataset.delay||0);obs.unobserve(entry.target);}});},{threshold:0.06});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.dataset.delay=(i%4)*65;obs.observe(el);});
+</script>
+</body>
+</html>

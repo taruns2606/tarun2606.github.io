@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research &amp; Engineering Work — Tarun Sadarla</title>
+<meta name="description" content="Selected research and engineering work — clinical AI systems, model compression research, and production ML deployment. AI/MLOps Engineer, MS AI (Biomedical), UNT.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:        #0F2D54;
+  --blue:        #1B5FA8;
+  --sky:         #3A9BD5;
+  --sky-light:   #EBF4FD;
+  --sky-pale:    #F4F9FF;
+  --white:       #FFFFFF;
+  --slate:       #3D5166;
+  --muted:       #6B829A;
+  --border:      #D0DFF0;
+  --border-light:#E8F0FA;
+  --text:        #253347;
+  --green:       #17836B;
+  --green-bg:    #EAF7F3;
+  --amber:       #B45309;
+  --amber-bg:    #FEF3C7;
+  --purple:      #6B46C1;
+  --purple-bg:   rgba(107,70,193,0.07);
+  --purple-b:    rgba(107,70,193,0.28);
+  --teal:        #0E7490;
+  --teal-bg:     #ECFEFF;
+  --shadow-sm:   0 1px 4px rgba(15,45,84,0.07);
+  --shadow:      0 4px 16px rgba(15,45,84,0.10);
+  --shadow-md:   0 8px 32px rgba(15,45,84,0.13);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--white);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-weight:400;line-height:1.72;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.018'/%3E%3C/svg%3E");pointer-events:none;z-index:2000;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 3.5rem;height:60px;background:rgba(255,255,255,0.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-light);box-shadow:var(--shadow-sm);}
+.nav-back{display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;font-weight:500;color:var(--blue);text-decoration:none;transition:color 0.18s;}
+.nav-back:hover{color:var(--navy);}
+.nav-title{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;}
+.nav-links{display:flex;gap:0.25rem;list-style:none;}
+.nav-links a{font-size:0.76rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:0.4rem 0.8rem;transition:color 0.18s;}
+.nav-links a:hover{color:var(--blue);}
+
+/* ── PAGE HEADER ── */
+#page-header{background:linear-gradient(155deg,var(--navy) 0%,#1B4F8C 50%,#1E6DA5 100%);padding:100px 3.5rem 4.5rem;position:relative;overflow:hidden;}
+.ph-pattern{position:absolute;inset:0;opacity:0.05;background-image:radial-gradient(circle at 1px 1px,white 1px,transparent 0);background-size:32px 32px;}
+.ph-inner{max-width:1060px;margin:0 auto;position:relative;}
+.ph-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(150,205,255,0.85);margin-bottom:0.8rem;}
+.ph-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.2rem);color:#FFFFFF;letter-spacing:-0.025em;margin-bottom:1rem;line-height:1.1;}
+.ph-title em{font-style:italic;color:#7DD3FC;}
+.ph-sub{font-size:0.96rem;color:rgba(200,225,255,0.75);max-width:620px;line-height:1.8;margin-bottom:2rem;}
+.tier-nav{display:flex;flex-wrap:wrap;gap:0;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);overflow:hidden;}
+.tn-item{padding:0.65rem 1.25rem;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(200,225,255,0.65);text-decoration:none;white-space:nowrap;transition:all 0.18s;border-right:1px solid rgba(255,255,255,0.08);}
+.tn-item:last-child{border-right:none;}
+.tn-item:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.06);}
+.tn-item.active{color:#FFFFFF;background:rgba(255,255,255,0.1);border-bottom:2px solid #7DD3FC;}
+
+/* ── LAYOUT ── */
+.page-body{max-width:1060px;margin:0 auto;padding:5rem 3.5rem;}
+.sec-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--blue);margin-bottom:0.45rem;font-weight:500;}
+.sec-eyebrow.purple{color:var(--purple);}
+.sec-eyebrow.teal{color:var(--teal);}
+.sec-eyebrow.amber{color:var(--amber);}
+.sec-eyebrow.green{color:var(--green);}
+h2{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,2.5vw,2rem);color:var(--navy);letter-spacing:-0.02em;margin-bottom:0.35rem;line-height:1.2;}
+.h2-sub{font-size:0.91rem;color:var(--muted);margin-bottom:1.5rem;max-width:640px;line-height:1.7;}
+p{color:var(--text);font-size:0.93rem;line-height:1.85;margin-bottom:0.85rem;}
+p strong{color:var(--navy);font-weight:600;}
+hr.div{border:none;border-top:1px solid var(--border-light);margin:4rem 0;}
+
+/* ── STORY STRIP (2-step) ── */
+.story-strip{background:linear-gradient(90deg,var(--sky-pale),var(--white));border:1px solid var(--border);border-left:4px solid var(--blue);padding:1.5rem 2rem;margin-bottom:3rem;display:grid;grid-template-columns:1fr 3rem 1fr;gap:0;align-items:center;}
+.ss-step{padding:0.5rem 1.5rem 0.5rem 0;}
+.ss-step:last-child{padding-left:1.5rem;padding-right:0;}
+.ss-num{font-family:'Playfair Display',serif;font-size:2rem;color:rgba(27,95,168,0.12);line-height:1;margin-bottom:0.3rem;}
+.ss-title{font-size:0.9rem;font-weight:600;color:var(--navy);margin-bottom:0.2rem;}
+.ss-body{font-size:0.8rem;color:var(--slate);line-height:1.6;}
+.ss-also{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--muted);margin-top:0.35rem;}
+.ss-arrow{display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:rgba(27,95,168,0.3);font-family:'IBM Plex Mono',monospace;}
+
+/* ── FLAGSHIP CARD ── */
+.fp-card{border:1px solid var(--border);margin-bottom:3.5rem;background:var(--white);}
+.fp-header{padding:1.75rem 2rem 0;display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
+.fp-badge{display:inline-flex;align-items:center;gap:0.4rem;font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.28rem 0.7rem;border:1px solid;margin-bottom:0.6rem;width:fit-content;}
+.fp-badge.purple{color:var(--purple);border-color:var(--purple-b);background:var(--purple-bg);}
+.fp-badge.blue{color:var(--blue);border-color:rgba(27,95,168,0.3);background:rgba(27,95,168,0.06);}
+.fp-title{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.01em;margin-bottom:0.35rem;line-height:1.2;}
+.fp-meta{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.fp-kpi-strip{display:flex;gap:0;background:var(--sky-pale);border-top:1px solid var(--border-light);margin-top:1.25rem;flex-wrap:wrap;}
+.fk{padding:1.1rem 1.5rem;border-right:1px solid var(--border-light);flex:1;text-align:center;min-width:100px;}
+.fk:last-child{border-right:none;}
+.fk-val{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--blue);line-height:1;margin-bottom:0.15rem;}
+.fk-val.green{color:var(--green);}
+.fk-val.purple{color:var(--purple);}
+.fk-lbl{font-family:'IBM Plex Mono',monospace;font-size:0.57rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.fp-body{padding:1.75rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;}
+.fp-clinical{font-size:0.91rem;color:var(--text);line-height:1.85;}
+.fp-clinical strong{color:var(--navy);font-weight:600;}
+.fp-clinical p{margin-bottom:0.75rem;}
+.fp-clinical p:last-child{margin-bottom:0;}
+.fp-diff{display:flex;flex-direction:column;gap:0.75rem;}
+.diff-item{padding:0.85rem 1rem;border-left:3px solid var(--blue);background:var(--sky-pale);}
+.diff-item.purple{border-left-color:var(--purple);background:var(--purple-bg);}
+.diff-label{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.2rem;}
+.diff-val{font-size:0.85rem;color:var(--navy);font-weight:500;line-height:1.5;}
+.fp-footer{padding:1.25rem 2rem;border-top:1px solid var(--border-light);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;background:var(--sky-pale);}
+.fp-stack{display:flex;flex-wrap:wrap;gap:0.35rem;}
+.stk{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;padding:0.2rem 0.55rem;border:1px solid var(--border);color:var(--muted);background:var(--white);}
+.fp-links{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.fp-link{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.75rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:0.55rem 1.1rem;text-decoration:none;transition:all 0.18s;}
+.fp-link.primary{background:var(--navy);color:#FFFFFF;}
+.fp-link.primary:hover{background:var(--blue);}
+.fp-link.sec{border:1px solid var(--border);color:var(--slate);}
+.fp-link.sec:hover{border-color:var(--blue);color:var(--blue);}
+.dep{display:inline-flex;align-items:center;gap:0.45rem;font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);}
+.dep-dot{width:6px;height:6px;border-radius:50%;background:#5CE65C;box-shadow:0 0 6px #5CE65C;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+
+/* ── BRIDGE ── */
+.bridge{padding:1.5rem 2rem;border:1px solid var(--border);border-left:4px solid var(--blue);background:var(--sky-pale);margin-bottom:3.5rem;}
+.bridge p{margin:0;font-size:0.88rem;line-height:1.72;color:var(--text);}
+.bridge strong{color:var(--navy);}
+.bridge-arrow{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:0.4rem;}
+
+/* ── RESEARCH CONTRIBUTION (CNN Pruning — elevated) ── */
+.research-card{border:1px solid var(--border);background:var(--white);margin-bottom:3.5rem;position:relative;}
+.research-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--purple),var(--blue));}
+.rc-header{padding:1.75rem 2rem 0;display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
+.rc-badge{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.28rem 0.7rem;border:1px solid var(--purple-b);color:var(--purple);background:var(--purple-bg);display:inline-block;margin-bottom:0.6rem;}
+.rc-title{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--navy);letter-spacing:-0.01em;margin-bottom:0.35rem;line-height:1.2;}
+.rc-meta{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.rc-kpis{display:flex;gap:0;background:var(--purple-bg);border-top:1px solid rgba(107,70,193,0.1);margin-top:1.25rem;flex-wrap:wrap;}
+.rk{padding:1rem 1.5rem;border-right:1px solid rgba(107,70,193,0.1);flex:1;text-align:center;min-width:90px;}
+.rk:last-child{border-right:none;}
+.rk-val{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--purple);line-height:1;margin-bottom:0.15rem;}
+.rk-lbl{font-family:'IBM Plex Mono',monospace;font-size:0.57rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.rc-body{padding:1.75rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;}
+.rc-foot{padding:1.25rem 2rem;border-top:1px solid rgba(107,70,193,0.1);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;background:var(--purple-bg);}
+
+/* ── CLINICAL SYSTEMS (Histopathology + WECARE — honestly tiered) ── */
+.clinical-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border-light);border:1px solid var(--border);margin-top:1.5rem;}
+.cl-card{background:var(--white);padding:1.75rem;transition:background 0.15s;}
+.cl-card:hover{background:var(--sky-pale);}
+.cl-badge{font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.22rem 0.55rem;border:1px solid;display:inline-block;margin-bottom:0.6rem;}
+.cl-blue{color:var(--blue);border-color:rgba(27,95,168,0.28);background:rgba(27,95,168,0.06);}
+.cl-teal{color:var(--teal);border-color:rgba(14,116,144,0.28);background:var(--teal-bg);}
+.cl-title{font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:0.4rem;line-height:1.3;}
+.cl-result{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--green);padding:0.22rem 0.6rem;border:1px solid rgba(23,131,107,0.25);background:var(--green-bg);display:inline-block;margin-bottom:0.65rem;}
+.cl-desc{font-size:0.84rem;color:var(--slate);line-height:1.68;margin-bottom:0.75rem;}
+.cl-contrib{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.06em;margin-bottom:0.75rem;padding:0.4rem 0.6rem;background:var(--sky-pale);border-left:2px solid var(--border);}
+.cl-links{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.cll{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.07em;text-transform:uppercase;text-decoration:none;padding:0.35rem 0.75rem;border:1px solid;transition:all 0.15s;}
+.cll-b{color:var(--blue);border-color:rgba(27,95,168,0.28);}
+.cll-b:hover{background:rgba(27,95,168,0.06);}
+.cll-g{color:var(--muted);border-color:var(--border);}
+.cll-g:hover{color:var(--navy);border-color:rgba(27,95,168,0.28);}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:900px){
+  nav{padding:0 1.25rem;}
+  .nav-title,.nav-links{display:none;}
+  #page-header{padding:80px 1.25rem 3rem;}
+  .page-body{padding:3rem 1.25rem;}
+  .story-strip{grid-template-columns:1fr;}
+  .ss-arrow{display:none;}
+  .fp-body,.rc-body{grid-template-columns:1fr;}
+  .clinical-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-back">← Home</a>
+  <span class="nav-title">Research &amp; Engineering Work</span>
+  <ul class="nav-links">
+    <li><a href="#flagship">Flagship</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#clinical">Clinical Systems</a></li>
+    <li><a href="#breadth">Data Engineering</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div id="page-header">
+  <div class="ph-pattern"></div>
+  <div class="ph-inner">
+    <p class="ph-eyebrow">Selected Research &amp; Engineering Work</p>
+    <h1 class="ph-title">Two deployed clinical systems.<br>One novel <em>compression method.</em></h1>
+    <p class="ph-sub">A curated set of the work behind the headline numbers on the homepage — full technical detail, validated results, and documented failure modes for the systems and research that best represent how I build clinical AI.</p>
+    <div class="tier-nav">
+      <a href="#flagship" class="tn-item active">Flagship Systems</a>
+      <a href="#research" class="tn-item">Research Contribution</a>
+      <a href="#clinical" class="tn-item">Clinical Systems</a>
+      <a href="#breadth" class="tn-item">Data Engineering</a>
+    </div>
+  </div>
+</div>
+
+<div class="page-body">
+
+  <!-- ARC INTRO -->
+  <div class="reveal" id="flagship">
+    <p class="sec-eyebrow">The Clinical AI Arc</p>
+    <h2>Two flagship systems. One coherent clinical capability.</h2>
+    <p class="h2-sub">Read these as a sequence, not a list. Each solved a different clinical problem and transferred a different capability to what came next.</p>
+  </div>
+
+  <!-- 2-step story strip -->
+  <div class="story-strip reveal">
+    <div class="ss-step">
+      <div class="ss-num">01</div>
+      <div class="ss-title">ASD Detection from Structural MRI</div>
+      <div class="ss-body">Clinical classification from NIfTI brain volumes. Learned: multi-site validation, quality gating, dual XAI, the limit of a high-AUC model with no explainability or uncertainty.</div>
+      <div class="ss-also">Also: established the 8-stage clinical inference pipeline used in all subsequent systems.</div>
+    </div>
+    <div class="ss-arrow">→</div>
+    <div class="ss-step" style="padding-left:1.5rem;">
+      <div class="ss-num">02</div>
+      <div class="ss-title">Fetal Head Circumference Measurement</div>
+      <div class="ss-body">Clinical measurement from ultrasound. Learned: segmentation, temporal cine reasoning, Hadlock GA estimation, clinical threshold validation. Exposed the deployment gap → led directly to CNN pruning research.</div>
+      <div class="ss-also">Also: Hybrid Crossover pruning (see Research section) runs in parallel, motivated by this system.</div>
+    </div>
+  </div>
+
+  <!-- ═══ FLAGSHIP 1 — ASD ═══ -->
+  <div class="fp-card reveal">
+    <div class="fp-header">
+      <div>
+        <span class="fp-badge purple">★ Neuroimaging AI · Deployed</span>
+        <div class="fp-title">ASD Detection from Structural Brain MRI</div>
+        <div class="fp-meta">1,067 subjects · 17 acquisition sites · ABIDE-I · NIfTI volumes</div>
+      </div>
+      <div class="dep"><span class="dep-dot"></span> Live on HuggingFace</div>
+    </div>
+    <div class="fp-kpi-strip">
+      <div class="fk"><div class="fk-val purple">0.994</div><div class="fk-lbl">AUC-ROC</div></div>
+      <div class="fk"><div class="fk-val green">95.6%</div><div class="fk-lbl">Sensitivity</div></div>
+      <div class="fk"><div class="fk-val green">97.2%</div><div class="fk-lbl">Specificity</div></div>
+      <div class="fk"><div class="fk-val">0.027</div><div class="fk-lbl">Brier Score</div></div>
+      <div class="fk"><div class="fk-val">17</div><div class="fk-lbl">Acquisition Sites</div></div>
+    </div>
+    <div class="fp-body">
+      <div class="fp-clinical">
+        <p><strong>The clinical problem:</strong> ASD diagnosis typically takes 18–24 months from referral to confirmed diagnosis — limited by specialist availability. Structural MRI is already routinely acquired. This system analyses that existing data algorithmically, flagging high-probability cases for expedited review.</p>
+        <p><strong>In clinical terms:</strong> 95.6% sensitivity means 956 of every 1,000 children with ASD are correctly identified. 97.2% specificity means only 28 false alarms per 1,000 non-ASD children. The Brier score of 0.027 means stated confidence levels are genuinely calibrated — when the system says 85% probable, 85% is what it means.</p>
+        <p><strong>Site variance is the critical deployment finding:</strong> Sensitivity spans 88.5% (PITT) to 98.5% (UM_1) — a 10 percentage-point gap driven by scanner heterogeneity. Site-specific calibration or ComBat harmonisation would be required before production deployment. This is documented in the Model Card with explicit implications.</p>
+        <p><strong>Explainability and governance built in:</strong> GradCAM + LIME dual explanation, MC-Dropout (30 stochastic passes), a 4-metric quality gate, an LLM-generated clinical report, site reliability indicators, and FDA SaMD Class II governance documentation.</p>
+      </div>
+      <div class="fp-diff">
+        <div class="diff-item purple">
+          <div class="diff-label">Clinical proposition</div>
+          <div class="diff-val">Pre-assessment triage layer targeting the 18–24 month diagnostic delay — surfaces high-probability cases for expedited specialist review</div>
+        </div>
+        <div class="diff-item purple">
+          <div class="diff-label">What a clinician receives</div>
+          <div class="diff-val">P(ASD) with CI, GradCAM + LIME spatial heatmaps, MC-Dropout uncertainty σ, site reliability badge, LLM-generated PDF report with regulatory framing</div>
+        </div>
+        <div class="diff-item purple">
+          <div class="diff-label">Documented failure mode</div>
+          <div class="diff-val">Confident false positives (σ ≈ 0.005) — the dangerous mode where the model is wrong and certain. Human override protocol required. Documented explicitly in Model Card.</div>
+        </div>
+        <div class="diff-item purple">
+          <div class="diff-label">Regulatory status</div>
+          <div class="diff-val">Research-grade decision support only. FDA SaMD Class II / De Novo pathway, sex and site bias audits, and known failure modes documented in full Model Card.</div>
+        </div>
+      </div>
+    </div>
+    <div class="fp-footer">
+      <div class="fp-stack">
+        <span class="stk">PyTorch</span><span class="stk">nibabel</span><span class="stk">GradCAM</span><span class="stk">LIME</span><span class="stk">MC-Dropout</span><span class="stk">Claude Haiku</span><span class="stk">ReportLab</span><span class="stk">Streamlit</span><span class="stk">ABIDE-I</span>
+      </div>
+      <div class="fp-links">
+        <a href="asd-detection.html" class="fp-link primary">Full Case Study →</a>
+        <a href="https://huggingface.co/spaces/TarunSadarla2606/asd-detection-demo" target="_blank" class="fp-link sec">Live Demo ↗</a>
+        <a href="https://github.com/TarunSadarla2606/asd-detection-clinical-ai" target="_blank" class="fp-link sec">GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRIDGE -->
+  <div class="bridge reveal">
+    <div class="bridge-arrow">→ What the ASD project couldn't do — and what came next</div>
+    <p>The ASD system classified from whole-brain structural MRI but measured nothing. Clinical practice often needs a precise numerical output — not just a probability. The fetal head project moved from <em>classification</em> to <em>clinical measurement</em>, adding temporal reasoning (cine-loop sequences) and a hard deployment constraint: the model needs to run in a busy ultrasound suite on shared hardware, not a research server. That deployment constraint was what motivated the CNN pruning work running in parallel. <strong>The question "how do we make this small enough to actually deploy?" became its own research thread.</strong></p>
+  </div>
+
+  <!-- ═══ FLAGSHIP 2 — FETAL HC ═══ -->
+  <div class="fp-card reveal">
+    <div class="fp-header">
+      <div>
+        <span class="fp-badge blue">★ Capstone System · Obstetric AI · Deployed</span>
+        <div class="fp-title">Fetal Head Circumference Measurement</div>
+        <div class="fp-meta">HC18 dataset · Static + cine-loop · ISUOG ±3mm threshold · Hadlock 1984 GA estimation</div>
+      </div>
+      <div class="dep"><span class="dep-dot"></span> Live on HuggingFace</div>
+    </div>
+    <div class="fp-kpi-strip">
+      <div class="fk"><div class="fk-val green">1.75mm</div><div class="fk-lbl">HC Error (ISUOG ≤3mm)</div></div>
+      <div class="fk"><div class="fk-val">97.36%</div><div class="fk-lbl">Dice (Static)</div></div>
+      <div class="fk"><div class="fk-val">2.10mm</div><div class="fk-lbl">HC Error (Cine-loop)</div></div>
+      <div class="fk"><div class="fk-val green">3.4×</div><div class="fk-lbl">Better than SOTA</div></div>
+      <div class="fk"><div class="fk-val green">153 hrs</div><div class="fk-lbl">Saved / unit / year</div></div>
+    </div>
+    <div class="fp-body">
+      <div class="fp-clinical">
+        <p><strong>The clinical problem:</strong> HC measurement is mandatory at every routine antenatal scan. Manual calliper placement takes 2–4 minutes, introduces up to 7mm inter-observer variation, and accumulates to ~153 sonographer hours per year at a unit doing 20 scans per day. This system replaces that step with a reproducible measurement to 1.75mm — 40% inside the ISUOG ±3mm acceptability threshold.</p>
+        <p><strong>Getting to clinical accuracy:</strong> The first working version measured 17.25mm MAE — over the ISUOG threshold by 5.75×. Closing that gap to 1.75mm took three targeted changes: flood-fill correction of hollow-ellipse annotations (the single biggest fix), boundary-weighted loss with distance-transform upweighting, and clinically-motivated augmentation (Rician speckle, not Gaussian) — no architecture change, engineering the training signal instead.</p>
+        <p><strong>The cine-loop system:</strong> Sonographers assess HC over a probe sweep, not a single frozen frame. The temporal model processes 16-frame sequences via shared 2D U-Net encoder + temporal self-attention (MAE 2.10mm, ISUOG compliant). Training data synthesized via Pseudo-LDDM v2 (Ornstein-Uhlenbeck probe motion, per-frame skull variation, Rician speckle) when real cine acquisitions were clinically held.</p>
+        <p><strong>Documented limitation:</strong> Third-trimester MAE 7.60mm exceeds the ISUOG threshold. Cause: acoustic shadowing from the ossified skull. Explicitly documented in Model Card with recommendation for manual verification at &gt;30 weeks GA.</p>
+      </div>
+      <div class="fp-diff">
+        <div class="diff-item">
+          <div class="diff-label">Clinical proposition</div>
+          <div class="diff-val">Replaces 2–4 min manual calliper placement with reproducible automated measurement. 153 sonographer hours saved per unit per year at 20 scans/day.</div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-label">What a clinician receives</div>
+          <div class="diff-val">HC in mm, gestational age ± 2-week CI, trimester classification, GradCAM++ overlay, frame-level uncertainty map, dual-mode PDF report (LLM + template)</div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-label">Deployment connection</div>
+          <div class="diff-val">Hybrid Crossover pruning (see Research section) delivers 2× compression + accuracy improvement for this backbone — enabling clinical hardware deployment without accuracy penalty</div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-label">Governance</div>
+          <div class="diff-val">GA-trimester bias audit, FDA SaMD Class II + EU IVDR Class B framing, Model Card with acoustic-shadowing limitation explanation and trimester-specific reliability indicators</div>
+        </div>
+      </div>
+    </div>
+    <div class="fp-footer">
+      <div class="fp-stack">
+        <span class="stk">PyTorch</span><span class="stk">U-Net</span><span class="stk">GradCAM++</span><span class="stk">Temporal Attention</span><span class="stk">Pseudo-LDDM v2</span><span class="stk">Claude Haiku</span><span class="stk">ReportLab</span><span class="stk">HC18</span>
+      </div>
+      <div class="fp-links">
+        <a href="fetal-head.html" class="fp-link primary">Full Case Study →</a>
+        <a href="https://huggingface.co/spaces/TarunSadarla2606/fetal-head-clinical-ai" target="_blank" class="fp-link sec">Live Demo ↗</a>
+        <a href="https://github.com/TarunSadarla2606/fetal-head-clinical-ai" target="_blank" class="fp-link sec">GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ═══ RESEARCH CONTRIBUTION — CNN PRUNING ═══ -->
+  <div class="reveal" id="research">
+    <p class="sec-eyebrow purple">Research Contribution</p>
+    <h2>A novel compression method — motivated by clinical deployment.</h2>
+    <p class="h2-sub">A directed study with a clear research question, a novel contribution, rigorous evaluation, and an IEEE-format report. Originated from the deployment constraint in the fetal HC system.</p>
+  </div>
+
+  <div class="research-card reveal">
+    <div class="rc-header">
+      <div>
+        <span class="rc-badge">★ Novel Method · Independent Research</span>
+        <div class="rc-title">CNN Filter Pruning — Hybrid Crossover Method</div>
+        <div class="rc-meta">VGG-16 · CelebA · CIFAR-10 · IEEE-format report</div>
+      </div>
+    </div>
+    <div class="rc-kpis">
+      <div class="rk"><div class="rk-val">2×</div><div class="rk-lbl">Channel Compression</div></div>
+      <div class="rk"><div class="rk-val">+0.37%</div><div class="rk-lbl">Accuracy Improvement</div></div>
+      <div class="rk"><div class="rk-val">2×</div><div class="rk-lbl">Faster Runtime</div></div>
+      <div class="rk"><div class="rk-val">2.05×</div><div class="rk-lbl">Best Latency Speedup</div></div>
+    </div>
+    <div class="rc-body">
+      <div class="fp-clinical">
+        <p><strong>The research question:</strong> When two convolutional filters are found to be redundant, standard structured pruning discards the weaker one permanently. Is it better to delete — or to synthesise a new filter that preserves the information from both?</p>
+        <p><strong>The contribution:</strong> Hybrid Crossover replaces deletion with regression-based synthesis. Given two redundant filters A and B, a new filter is learned via least-squares regression to match the element-wise max of their activation maps — the peak activation from each parent, in a single filter. Integrated into a Global ILR scoring pipeline with hard accuracy guard rails (≤2pp overall, ≤6pp per-class on CelebA).</p>
+        <p><strong>The counterintuitive result:</strong> Hybrid Crossover achieves 2× more compression AND higher accuracy AND 2× faster runtime than standard drop under identical constraints. Faster because regression-synthesized filters satisfy guard rails on the first attempt — standard drop under aggressive compression triggers expensive rollback loops that dominate total runtime.</p>
+        <p><strong>Clinical deployment relevance:</strong> The CIFAR-10 5-CNN result (2.05× latency speedup, 1.2pp accuracy cost, 75% of B4 channels removed) demonstrates the method on a realistic inference backbone. Applied to the fetal HC segmentation backbone: same clinical accuracy, half the GPU memory, twice the inference speed — the difference between requiring a dedicated GPU server and running on existing radiology workstation infrastructure.</p>
+      </div>
+      <div class="fp-diff">
+        <div class="diff-item" style="border-left-color:var(--purple);background:var(--purple-bg);">
+          <div class="diff-label">The novel idea</div>
+          <div class="diff-val">Synthesis over deletion: create a new filter from two redundant parents rather than discarding one. Reframes compression as an information-preservation problem, not a removal problem.</div>
+        </div>
+        <div class="diff-item" style="border-left-color:var(--purple);background:var(--purple-bg);">
+          <div class="diff-label">Why it's faster AND better</div>
+          <div class="diff-val">Synthesized filters satisfy accuracy guard rails on the first attempt. Standard drop under aggressive compression repeatedly violates constraints and triggers rollbacks — those rollback loops dominate runtime.</div>
+        </div>
+        <div class="diff-item" style="border-left-color:var(--purple);background:var(--purple-bg);">
+          <div class="diff-label">Limitations</div>
+          <div class="diff-val">Middle layers (B2–B3) resist compression due to low filter redundancy. Evaluated on binary classification only — multi-class and medical imaging domain extension are the natural next steps.</div>
+        </div>
+      </div>
+    </div>
+    <div class="rc-foot">
+      <div class="fp-stack">
+        <span class="stk">PyTorch</span><span class="stk">VGG-16</span><span class="stk">ILR Saliency</span><span class="stk">Guard Rails</span><span class="stk">CelebA</span><span class="stk">CIFAR-10</span>
+      </div>
+      <div class="fp-links">
+        <a href="cnn-pruning.html" class="fp-link primary" style="background:var(--purple);">Full Case Study →</a>
+        <a href="https://github.com/TarunSadarla2606/cnn-structured-pruning-vgg16" target="_blank" class="fp-link sec">GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ═══ CLINICAL SYSTEMS (WECARE + HISTOPATHOLOGY) ═══ -->
+  <div class="reveal" id="clinical">
+    <p class="sec-eyebrow teal">Clinical Systems</p>
+    <h2>Deployed systems from course and team work.</h2>
+    <p class="h2-sub">Substantial team projects with real datasets and documented clinical relevance. Individual contributions are clearly marked.</p>
+  </div>
+
+  <div class="clinical-grid reveal">
+
+    <!-- WECARE -->
+    <div class="cl-card">
+      <span class="cl-badge cl-teal">Edge AI · Wearable</span>
+      <div class="cl-title">WECARE — Cardiac &amp; Fall Detection</div>
+      <div class="cl-result">ECG F1: 0.9864 · 0.033ms inference · 8 missed falls / 228</div>
+      <p class="cl-desc">On-device arrhythmia and fall detection — entirely on-device, no cloud round-trip in a cardiac emergency. ECG stream: 1D CNN on MIT-BIH, class-weighted sampling for 75% normal-beat imbalance, TorchScript export at 0.033ms — 1,200× below the 40ms real-time clinical threshold. Fall stream: MobiFall, threshold set at 0.65 (not 0.50) to deliberately minimise missed falls at the cost of more false alarms. Threshold as clinical safety policy, not hyperparameter.</p>
+      <div class="cl-links">
+        <a href="wecare.html" class="cll cll-b">Case Study →</a>
+        <a href="https://github.com/TarunSadarla2606/wecare-cardiac-fall-detection" target="_blank" class="cll cll-g">GitHub ↗</a>
+      </div>
+    </div>
+
+    <!-- HISTOPATHOLOGY -->
+    <div class="cl-card">
+      <span class="cl-badge cl-blue">Digital Pathology · Full-Stack</span>
+      <div class="cl-title">Histopathologic Cancer Detection</div>
+      <div class="cl-result">AUC 0.921 · F1 0.819 · 187K patches · CADe compliance</div>
+      <p class="cl-desc">Binary cancer detection on PCam (Camelyon16). Key finding: a 4-stage data-volume study showed non-monotonic AUC scaling — adding more data initially degraded performance before recovering, directly informative for clinical AI validation practice. GradCAM spatial explainability (FDA CADe audit requirement), confidence-tiered decision zones (auto-clear at p&lt;0.10 removes 24.5% of patches at 2.6% miss rate), full Model Card, Django REST API + React frontend.</p>
+      <div class="cl-links">
+        <a href="histopathology.html" class="cll cll-b">Case Study →</a>
+        <a href="https://github.com/TarunSadarla2606/histopathology-cancer-detection" target="_blank" class="cll cll-g">GitHub ↗</a>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="div">
+
+  <!-- ═══ DATA ENGINEERING ═══ -->
+  <div class="reveal" id="breadth">
+    <p class="sec-eyebrow amber">Data Engineering</p>
+    <h2>Distributed data infrastructure at scale.</h2>
+    <p class="h2-sub">The same infrastructure pattern used for large-scale clinical data — EHR, PACS, claims — built and validated on a large public dataset.</p>
+  </div>
+
+  <div class="clinical-grid reveal">
+    <div class="cl-card" style="grid-column:1/-1;">
+      <span class="cl-badge cl-blue">Big Data · Cloud</span>
+      <div class="cl-title">Customer Segmentation — PySpark on AWS</div>
+      <div class="cl-result">541K transactions · AWS S3 + EMR · RFM + K-Means/GMM</div>
+      <p class="cl-desc">541,909 e-commerce transactions processed on AWS S3 + EMR using PySpark — full EDA and RFM (Recency-Frequency-Monetary) feature engineering at distributed scale, followed by K-Means and GMM segmentation. The same pattern (PySpark on distributed compute, not pandas) used for large-scale clinical data pipelines.</p>
+      <div class="cl-links">
+        <a href="big-data.html" class="cll cll-b">Case Study →</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER CTA -->
+<div style="background:var(--navy);padding:3rem 3.5rem;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;">
+  <div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#FFFFFF;margin-bottom:0.4rem;">Ready to talk about clinical AI?</div>
+    <div style="font-size:0.86rem;color:rgba(180,210,255,0.7);">AI/MLOps Engineer @ Molina Healthcare · MS AI (Biomedical), UNT · Open to new opportunities</div>
+  </div>
+  <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+    <a href="index.html#contact" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.75rem 1.5rem;background:#FFFFFF;color:var(--navy);font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;text-decoration:none;">Get in Touch →</a>
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.75rem 1.5rem;border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.8);font-size:0.78rem;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;text-decoration:none;">← Home</a>
+  </div>
+</div>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), entry.target.dataset.delay || 0);
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.06 });
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.dataset.delay = (i % 4) * 70;
+  obs.observe(el);
+});
+
+// Active tier nav on scroll
+const sections = ['flagship','research','clinical','breadth'];
+window.addEventListener('scroll', () => {
+  let current = sections[0];
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.getBoundingClientRect().top + window.scrollY - 200) current = id;
+  });
+  document.querySelectorAll('.tn-item').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>

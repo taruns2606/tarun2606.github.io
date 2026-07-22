@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASD Detection Clinical AI — Tarun Sadarla</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:     #0F2D54;
+  --blue:     #1B5FA8;
+  --blue-mid: #2574C4;
+  --sky:      #3A9BD5;
+  --sky-light:#EBF4FD;
+  --sky-pale: #F4F9FF;
+  --white:    #FFFFFF;
+  --off-white:#F7FAFD;
+  --slate:    #3D5166;
+  --muted:    #6B829A;
+  --border:   #D0DFF0;
+  --border-light: #E8F0FA;
+  --text:     #253347;
+  --green:    #17836B;
+  --green-bg: #EAF7F3;
+  --amber:    #B45309;
+  --amber-bg: #FEF3C7;
+  --red:      #B91C1C;
+  --red-bg:   #FEE2E2;
+  --shadow-sm: 0 1px 4px rgba(15,45,84,0.07);
+  --shadow:    0 4px 16px rgba(15,45,84,0.10);
+  --shadow-md: 0 8px 32px rgba(15,45,84,0.13);
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-weight: 400; line-height: 1.75; overflow-x: hidden; }
+
+/* ── NAV ── */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 0 3rem; height: 60px; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-light); box-shadow: var(--shadow-sm); }
+.nav-back { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em; color: var(--blue); text-decoration: none; transition: color 0.2s; }
+.nav-back:hover { color: var(--navy); }
+.nav-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.03em; color: var(--slate); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--blue); }
+
+/* ── HERO ── */
+#hero { min-height: 100vh; display: flex; align-items: center; padding: 100px 3rem 5rem; background: linear-gradient(155deg, var(--navy) 0%, #1B4F8C 45%, #1F6FA8 100%); position: relative; overflow: hidden; }
+.hero-pattern { position: absolute; inset: 0; opacity: 0.06; background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 32px 32px; }
+.hero-arc { position: absolute; bottom: -120px; right: -120px; width: 600px; height: 600px; border-radius: 50%; border: 80px solid rgba(255,255,255,0.04); pointer-events: none; }
+.hero-arc2 { position: absolute; bottom: -200px; right: -200px; width: 800px; height: 800px; border-radius: 50%; border: 60px solid rgba(255,255,255,0.03); pointer-events: none; }
+.hero-content { position: relative; max-width: 820px; }
+.live-badge { display: inline-flex; align-items: center; gap: 0.55rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.4rem 1rem; border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.1); margin-bottom: 1.5rem; text-decoration: none; transition: background 0.2s; display: inline-flex; opacity: 0; animation: fadeUp 0.7s ease 0.05s forwards; }
+.live-badge:hover { background: rgba(255,255,255,0.18); }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: #5CE65C; box-shadow: 0 0 8px #5CE65C; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+.proj-cat { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; color: rgba(150,210,255,0.9); text-transform: uppercase; margin-bottom: 0.9rem; opacity: 0; animation: fadeUp 0.7s ease 0.15s forwards; }
+h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.08; color: #FFFFFF; letter-spacing: -0.02em; margin-bottom: 1.2rem; opacity: 0; animation: fadeUp 0.7s ease 0.25s forwards; }
+h1 em { font-style: italic; color: #7DD3FC; }
+.hero-lead { font-size: 1.05rem; color: rgba(220,235,255,0.88); max-width: 660px; line-height: 1.9; margin-bottom: 1.75rem; opacity: 0; animation: fadeUp 0.7s ease 0.38s forwards; }
+.hero-lead strong { color: #FFFFFF; font-weight: 600; }
+.hero-kpi { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.7s ease 0.48s forwards; }
+.kpi-chip { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); padding: 0.55rem 1.1rem; }
+.kpi-chip .kv { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #FFFFFF; line-height: 1; }
+.kpi-chip .kl { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(180,215,255,0.8); margin-top: 0.15rem; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 0.75rem; opacity: 0; animation: fadeUp 0.7s ease 0.58s forwards; }
+.btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.8rem 1.75rem; background: #FFFFFF; color: var(--navy); text-decoration: none; transition: all 0.2s; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+.btn-primary:hover { background: #EBF4FD; transform: translateY(-1px); }
+.btn-sec { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.8rem 1.75rem; border: 1.5px solid rgba(255,255,255,0.45); color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.2s; }
+.btn-sec:hover { border-color: white; background: rgba(255,255,255,0.1); }
+.btn-ghost { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.8rem 1.75rem; border: 1px solid rgba(255,255,255,0.25); color: rgba(200,225,255,0.75); text-decoration: none; transition: all 0.2s; }
+.btn-ghost:hover { color: rgba(255,255,255,0.9); border-color: rgba(255,255,255,0.4); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+
+/* ── LAYOUT ── */
+.page-content { max-width: 1040px; margin: 0 auto; padding: 5rem 3rem; }
+.sec-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.45rem; font-weight: 500; }
+.sec-label.green { color: var(--green); }
+.sec-label.amber { color: var(--amber); }
+h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem,2.8vw,2.1rem); color: var(--navy); letter-spacing: -0.02em; margin-bottom: 0.4rem; line-height: 1.2; }
+.h2-sub { font-size: 0.94rem; color: var(--muted); margin-bottom: 1.75rem; max-width: 640px; line-height: 1.7; }
+h3 { font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 0.45rem; margin-top: 2rem; }
+p { color: var(--text); font-size: 0.94rem; line-height: 1.85; margin-bottom: 0.9rem; }
+p strong { color: var(--navy); font-weight: 600; }
+hr.divider { border: none; border-top: 1px solid var(--border-light); margin: 4rem 0; }
+
+/* ── CLINICAL IMPACT STRIP (top of content) ── */
+.impact-strip { background: linear-gradient(90deg, var(--sky-pale) 0%, #EEF5FF 100%); border: 1px solid var(--border); border-left: 4px solid var(--blue); padding: 1.6rem 2rem; margin-bottom: 3rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+.impact-item { }
+.impact-val { font-family: 'Playfair Display', serif; font-size: 1.65rem; color: var(--blue); line-height: 1; margin-bottom: 0.2rem; }
+.impact-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.impact-desc { font-size: 0.82rem; color: var(--slate); margin-top: 0.2rem; }
+
+/* ── PIPELINE ── */
+.pipeline { display: flex; flex-direction: column; gap: 0; margin: 2rem 0; border: 1px solid var(--border); }
+.pipe-step { display: grid; grid-template-columns: 3rem 1fr; gap: 1.25rem; align-items: start; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-light); background: var(--white); transition: background 0.15s; }
+.pipe-step:last-child { border-bottom: none; }
+.pipe-step:hover { background: var(--sky-pale); }
+.pipe-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; font-weight: 500; color: var(--blue); padding-top: 0.1rem; background: var(--sky-light); width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pipe-content h4 { font-size: 0.9rem; font-weight: 600; color: var(--navy); margin-bottom: 0.2rem; }
+.pipe-content p { font-size: 0.84rem; color: var(--slate); margin: 0; line-height: 1.65; }
+
+/* ── METRICS ── */
+.metrics-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; border: 1px solid var(--border); margin: 2.5rem 0; }
+.metric-cell { padding: 1.5rem 1.25rem; text-align: center; border-right: 1px solid var(--border-light); background: var(--white); }
+.metric-cell:last-child { border-right: none; }
+.metric-val { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--blue); line-height: 1; margin-bottom: 0.3rem; }
+.metric-val.green { color: var(--green); }
+.metric-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.metric-sub { font-size: 0.7rem; color: var(--muted); margin-top: 0.25rem; opacity: 0.75; }
+
+/* ── SUBGROUP BARS ── */
+.sg-row { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); margin: 2rem 0; }
+.sg-cell { padding: 1.5rem; border-right: 1px solid var(--border-light); }
+.sg-cell:last-child { border-right: none; }
+.sg-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.9rem; }
+.sg-bar-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
+.sg-bar-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; color: var(--slate); width: 3.8rem; flex-shrink: 0; }
+.sg-bar-track { flex: 1; height: 7px; background: var(--sky-light); border-radius: 4px; overflow: hidden; }
+.sg-bar-fill { height: 100%; border-radius: 4px; }
+.sg-bar-val { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; color: var(--navy); font-weight: 500; width: 3.2rem; text-align: right; }
+
+/* ── COMPARISON TABLE ── */
+.cmp-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.85rem; border: 1px solid var(--border); }
+.cmp-table th { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate); padding: 0.8rem 1rem; text-align: left; background: var(--sky-pale); border-bottom: 1px solid var(--border); }
+.cmp-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-light); color: var(--text); }
+.cmp-table td:first-child { font-weight: 600; color: var(--navy); }
+.cmp-table td.old { color: var(--muted); }
+.cmp-table td.new { color: var(--green); font-weight: 500; }
+.cmp-table tr:hover td { background: var(--sky-pale); }
+
+/* ── XAI GRID ── */
+.xai-grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); margin: 2rem 0; }
+.xai-card { padding: 1.75rem; border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); background: var(--white); }
+.xai-card:nth-child(2n) { border-right: none; }
+.xai-card:nth-child(3), .xai-card:nth-child(4) { border-bottom: none; }
+.xai-card h4 { font-size: 0.88rem; font-weight: 600; color: var(--navy); margin-bottom: 0.55rem; }
+.xai-card p { font-size: 0.85rem; color: var(--slate); line-height: 1.7; margin: 0; }
+
+/* ── FINDINGS ── */
+.findings { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); margin: 2rem 0; }
+.finding { padding: 1.75rem; border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+.finding:nth-child(2n) { border-right: none; }
+.finding:nth-child(3), .finding:nth-child(4) { border-bottom: none; }
+.finding-icon { font-size: 1.1rem; margin-bottom: 0.5rem; }
+.finding-title { font-size: 0.85rem; font-weight: 600; color: var(--navy); margin-bottom: 0.35rem; }
+.finding-body { font-size: 0.84rem; color: var(--slate); line-height: 1.7; }
+
+/* ── CALLOUTS ── */
+.callout { padding: 1.25rem 1.5rem; border-left: 4px solid var(--blue); background: var(--sky-pale); margin: 1.75rem 0; }
+.callout.warn { border-left-color: var(--amber); background: var(--amber-bg); }
+.callout.green { border-left-color: var(--green); background: var(--green-bg); }
+.callout.red { border-left-color: var(--red); background: var(--red-bg); }
+.callout p { margin: 0; font-size: 0.87rem; line-height: 1.7; color: var(--text); }
+.callout strong { color: var(--navy); }
+
+/* ── PULL QUOTE ── */
+.pull-quote { padding: 2rem 2.5rem; border-left: 4px solid var(--blue); background: var(--sky-pale); margin: 3rem 0; position: relative; }
+.pull-quote p { font-family: 'Playfair Display', serif; font-size: 1.08rem; color: var(--navy); line-height: 1.7; font-style: italic; margin: 0; }
+.pull-quote .attrib { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; color: var(--muted); margin-top: 0.75rem; text-transform: uppercase; }
+
+/* ── TWO COL ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin: 2rem 0; }
+
+/* ── PHASE BLOCKS ── */
+.phase-block { border: 1px solid var(--border); padding: 1.75rem 2rem; margin: 2.5rem 0; background: var(--sky-pale); border-left: 4px solid var(--blue-mid); }
+.phase-block.alt { border-left-color: var(--sky); background: var(--white); }
+.phase-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.25rem; }
+.phase-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--navy); margin-bottom: 0.35rem; }
+.phase-sub { font-size: 0.86rem; color: var(--slate); }
+
+/* ── STACK ── */
+.stack-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0; }
+.stk { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; padding: 0.25rem 0.65rem; border: 1px solid var(--border); color: var(--slate); background: var(--white); }
+
+/* ── BOTTOM CTA ── */
+.bottom-cta { background: var(--navy); padding: 3.5rem 3rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap; }
+.cta-left h3 { font-family: 'Playfair Display', serif; font-size: 1.45rem; color: #FFFFFF; margin-bottom: 0.5rem; }
+.cta-left p { font-size: 0.88rem; color: rgba(180,215,255,0.8); margin: 0; max-width: 480px; }
+.cta-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.cta-btns .btn-primary { background: #FFFFFF; color: var(--navy); }
+.cta-btns .btn-sec { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.85); }
+.cta-btns .btn-ghost { border-color: rgba(255,255,255,0.25); color: rgba(200,225,255,0.6); }
+
+/* ── WORKFLOW BADGE ── */
+.wf-row { display: flex; flex-wrap: wrap; gap: 0; margin: 2rem 0; border: 1px solid var(--border); }
+.wf-step { flex: 1; min-width: 140px; padding: 1.25rem; border-right: 1px solid var(--border-light); text-align: center; background: var(--white); position: relative; }
+.wf-step:last-child { border-right: none; }
+.wf-step::after { content: '→'; position: absolute; right: -0.65rem; top: 50%; transform: translateY(-50%); color: var(--blue); font-size: 1rem; z-index: 1; }
+.wf-step:last-child::after { display: none; }
+.wf-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+.wf-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy); font-weight: 500; }
+.wf-sub { font-size: 0.74rem; color: var(--muted); margin-top: 0.15rem; }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 800px) {
+  nav { padding: 0 1.25rem; }
+  .nav-title, .nav-links { display: none; }
+  #hero { padding: 90px 1.25rem 4rem; }
+  .page-content { padding: 3rem 1.25rem; }
+  .metrics-row, .sg-row, .xai-grid, .findings, .two-col, .impact-strip { grid-template-columns: 1fr; }
+  .impact-strip { border-left: none; border-top: 4px solid var(--blue); }
+  .bottom-cta { flex-direction: column; padding: 2.5rem 1.25rem; }
+  .wf-row { flex-direction: column; }
+  .wf-step::after { content: '↓'; right: auto; left: 50%; transform: translateX(-50%); bottom: -0.75rem; top: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-back">← Portfolio</a>
+  <span class="nav-title">ASD Detection — Clinical AI</span>
+  <ul class="nav-links">
+    <li><a href="#workflow">Clinical Workflow</a></li>
+    <li><a href="#performance">Performance</a></li>
+    <li><a href="#xai">Explainability</a></li>
+    <li><a href="#governance">Governance</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-arc"></div>
+  <div class="hero-arc2"></div>
+  <div class="hero-content">
+    <a href="https://huggingface.co/spaces/TarunSadarla2606/asd-detection-demo" target="_blank" class="live-badge">
+      <span class="live-dot"></span> Live System — Hugging Face Spaces ↗
+    </a>
+    <p class="proj-cat">// Neuroimaging AI · Clinical Decision Support · Structural MRI</p>
+    <h1>Autism Spectrum Disorder<br>Detection from <em>Structural MRI</em></h1>
+    <p class="hero-lead">
+      A <strong>subject-level clinical AI system</strong> that takes raw NIfTI brain scans, runs a full clinical-grade inference pipeline, and delivers structured diagnostic support — GradCAM + LIME spatial explanations, MC-Dropout uncertainty quantification, site-reliability indicators, and an LLM-generated clinical report. Built on ABIDE-I: <strong>1,067 subjects across 17 acquisition sites.</strong>
+    </p>
+    <div class="hero-kpi">
+      <div class="kpi-chip"><div class="kv">0.994</div><div class="kl">AUC-ROC</div></div>
+      <div class="kpi-chip"><div class="kv">95.6%</div><div class="kl">Sensitivity</div></div>
+      <div class="kpi-chip"><div class="kv">97.2%</div><div class="kl">Specificity</div></div>
+      <div class="kpi-chip"><div class="kv">0.027</div><div class="kl">Brier Score</div></div>
+    </div>
+    <div class="hero-cta">
+      <a href="https://huggingface.co/spaces/TarunSadarla2606/asd-detection-demo" target="_blank" class="btn-primary">Try Live Demo →</a>
+      <a href="https://github.com/TarunSadarla2606/asd-detection-clinical-ai" target="_blank" class="btn-sec">GitHub ↗</a>
+      <a href="#workflow" class="btn-ghost">See Clinical Workflow ↓</a>
+    </div>
+  </div>
+</section>
+
+<div class="page-content">
+
+  <!-- REAL-WORLD FIT -->
+  <div class="reveal">
+    <p class="sec-label">Clinical Fit</p>
+    <h2 id="workflow">Where this fits in an active diagnostic workflow</h2>
+    <p class="h2-sub">ASD diagnosis today is slow, subjective, and resource-intensive. This system is designed to address a specific gap in the pathway.</p>
+
+    <p>Current ASD diagnostic pathways rely heavily on behavioural assessments — ADOS-2, ADI-R — which require specialist time, are subjective, and create diagnostic delays of 18–24 months in many health systems. Structural MRI is routinely acquired in paediatric neurodevelopment referrals. The structural data already exists; it is just not being used algorithmically.</p>
+
+    <p>This system is designed as a <strong>pre-assessment triage layer</strong>: it processes the existing MRI acquisition, assigns a probability of ASD with uncertainty bounds, highlights the neuroanatomical regions driving the inference, and flags cases for expedited specialist review. The system does not replace the clinician — it ensures that the 30% of referrals with the clearest neuroimaging signatures are seen first, and that every specialist is presented with spatial evidence rather than a raw number.</p>
+  </div>
+
+  <!-- CLINICAL WORKFLOW STEPS -->
+  <div class="wf-row reveal">
+    <div class="wf-step">
+      <div class="wf-icon">📤</div>
+      <div class="wf-label">MRI Acquisition</div>
+      <div class="wf-sub">Routine structural T1 scan — no new imaging protocol required</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-icon">🔬</div>
+      <div class="wf-label">Quality Gating</div>
+      <div class="wf-sub">4-metric automated quality filter; ~6.5% of suboptimal slices removed</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-icon">🧠</div>
+      <div class="wf-label">AI Inference</div>
+      <div class="wf-sub">Subject-level ASD probability with confidence interval across all valid slices</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-icon">🗺️</div>
+      <div class="wf-label">Spatial XAI</div>
+      <div class="wf-sub">GradCAM + LIME heatmaps identifying anatomical regions of interest</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-icon">📋</div>
+      <div class="wf-label">Clinical Report</div>
+      <div class="wf-sub">PDF with prediction, uncertainty, spatial findings, and site reliability flag</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-icon">👩‍⚕️</div>
+      <div class="wf-label">Specialist Review</div>
+      <div class="wf-sub">Prioritised queue: high-confidence cases reviewed first with AI-generated brief</div>
+    </div>
+  </div>
+
+  <!-- BUSINESS / OPERATIONAL VALUE -->
+  <div class="impact-strip reveal">
+    <div class="impact-item">
+      <div class="impact-val">30%</div>
+      <div class="impact-lbl">High-confidence triage</div>
+      <div class="impact-desc">Estimated share of referrals with clear neuroimaging signatures, surfaced first</div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-val">18–24 mo</div>
+      <div class="impact-lbl">Typical diagnostic delay</div>
+      <div class="impact-desc">Current average from referral to confirmed ASD diagnosis in many health systems</div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-val">17 sites</div>
+      <div class="impact-lbl">Multi-site validated</div>
+      <div class="impact-desc">System validated across scanner heterogeneity — not just a single-site lab result</div>
+    </div>
+  </div>
+
+  <div class="callout green reveal">
+    <p><strong>The operational proposition:</strong> The system reuses MRI data clinicians already have. No additional acquisition time, no new infrastructure. The PDF report integrates into an existing referral workflow without requiring a new interface — a consultant opens the same patient file, sees the AI brief alongside standard radiological notes, and proceeds. This is designed from the workflow backward, not from the model outward.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- FULL PIPELINE -->
+  <div class="reveal">
+    <p class="sec-label">Technical Pipeline</p>
+    <h2>Eight-stage clinical inference pipeline</h2>
+    <p class="h2-sub">Every stage mirrors what a production medical imaging AI system requires — not a research notebook.</p>
+  </div>
+
+  <div class="pipeline reveal">
+    <div class="pipe-step">
+      <div class="pipe-num">01</div>
+      <div class="pipe-content">
+        <h4>NIfTI ingestion + axial slice extraction</h4>
+        <p>Accepts .nii and .nii.gz volumes — the standard clinical neuroimaging format. Handles 3D/4D volumes, variable slice counts, and non-standard orientations without manual preprocessing.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">02</div>
+      <div class="pipe-content">
+        <h4>4-metric quality gate</h4>
+        <p>Mean intensity (blank rejection) · Brain coverage fraction · Pixel standard deviation (uniform slice rejection) · Laplacian variance (blur/motion rejection) · Contour circularity ≥ 0.45 (non-brain shape rejection). Removes ~6.5% of slices — consistent across train/val/test. No manual slice curation required at inference time.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">03</div>
+      <div class="pipe-content">
+        <h4>Brain ROI crop + normalisation</h4>
+        <p>Contour-based bounding box extraction removes black background before XAI — eliminating the background superpixel artefact that commonly corrupts LIME explanations in neuroimaging pipelines. Resize to 224×224 with ImageNet-style normalisation.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">04</div>
+      <div class="pipe-content">
+        <h4>CNN inference — all valid slices</h4>
+        <p>5-layer skip-connected CNN (1.6M parameters, NAdam-trained) processes every quality-filtered axial slice independently. P(ASD) and quality score computed per slice. No slice-level labelling required at deployment.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">05</div>
+      <div class="pipe-content">
+        <h4>Subject-level aggregation via quality-weighted voting</h4>
+        <p>Weighted average of P(ASD) across all valid slices, where weight = quality_score × confidence. Subject-level probability derived from consensus — not from any single slice — matching how a radiologist integrates information across a volume.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">06</div>
+      <div class="pipe-content">
+        <h4>XAI — GradCAM + LIME on top-K slices</h4>
+        <p>Highest-quality slices selected for dual explanation. GradCAM gradient-weighted class activation maps identify spatially which regions drove the classification. LIME superpixel perturbation (500 samples) provides complementary causal evidence. Spatial centre-of-mass mapped to anatomical region for clinical narration.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">07</div>
+      <div class="pipe-content">
+        <h4>MC-Dropout uncertainty quantification</h4>
+        <p>30 stochastic forward passes with Dropout2d active at inference. σ &lt; 0.02 = low uncertainty. σ &gt; 0.08 = review flag displayed inline. Critically: false negatives show σ = 0.150 (correctly flagged); false positives show σ = 0.005 — confident-wrong mode documented in Model Card.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">08</div>
+      <div class="pipe-content">
+        <h4>LLM-generated clinical narrative + PDF export</h4>
+        <p>Claude Haiku synthesises all structured outputs — confidence, vote distribution, GradCAM energy, anatomical region, LIME status, uncertainty band, site reliability, demographics — into clinical language. Exported as formatted PDF. LLM output includes explicit model limitations framing per regulatory guidance.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PERFORMANCE -->
+  <div class="reveal">
+    <p class="sec-label">Validated Performance</p>
+    <h2 id="performance">Validated across 18,814 quality-filtered test slices</h2>
+    <p class="h2-sub">Slice-level validation metrics. Subject-level clinical deployment uses aggregation pipeline above.</p>
+  </div>
+
+  <div class="metrics-row reveal">
+    <div class="metric-cell">
+      <div class="metric-val">0.994</div>
+      <div class="metric-label">AUC-ROC</div>
+      <div class="metric-sub">Near-perfect discrimination</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-val">95.6%</div>
+      <div class="metric-label">Sensitivity</div>
+      <div class="metric-sub">ASD detection rate</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-val">97.2%</div>
+      <div class="metric-label">Specificity</div>
+      <div class="metric-sub">True negative rate</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-val green">0.027</div>
+      <div class="metric-label">Brier Score</div>
+      <div class="metric-sub">Calibrated (&lt;0.10 threshold)</div>
+    </div>
+  </div>
+
+  <p class="reveal">Well-calibrated probabilities are clinically essential. A Brier score of 0.027 means the model's stated confidence closely tracks actual outcomes — when it reports 87% probability, that represents a genuine 87% expected accuracy, not optimistic overconfidence. The calibration plot confirms near-diagonal reliability across the full probability range. This is what makes the uncertainty flags meaningful: the model's stated confidence is trustworthy.</p>
+
+  <!-- SUBGROUP -->
+  <div class="reveal" style="margin-top:2.5rem;">
+    <h3>Subgroup performance — sex and acquisition site</h3>
+    <p>ABIDE-I is 85% male. Sex imbalance is a known limitation documented in the Model Card. Site variance is clinically significant and drives the most important operational constraint: site-specific calibration would be required before production deployment.</p>
+  </div>
+
+  <div class="sg-row reveal">
+    <div class="sg-cell">
+      <div class="sg-label">Sensitivity by Sex</div>
+      <div class="sg-bar-row">
+        <div class="sg-bar-label">Male</div>
+        <div class="sg-bar-track"><div class="sg-bar-fill" style="width:95.8%;background:var(--blue);"></div></div>
+        <div class="sg-bar-val">95.8%</div>
+      </div>
+      <div class="sg-bar-row">
+        <div class="sg-bar-label">Female</div>
+        <div class="sg-bar-track"><div class="sg-bar-fill" style="width:93.4%;background:var(--sky);"></div></div>
+        <div class="sg-bar-val">93.4%</div>
+      </div>
+    </div>
+    <div class="sg-cell">
+      <div class="sg-label">Sensitivity by Site (selected)</div>
+      <div class="sg-bar-row">
+        <div class="sg-bar-label">UM_1</div>
+        <div class="sg-bar-track"><div class="sg-bar-fill" style="width:98.5%;background:var(--green);"></div></div>
+        <div class="sg-bar-val">98.5%</div>
+      </div>
+      <div class="sg-bar-row">
+        <div class="sg-bar-label">OLIN</div>
+        <div class="sg-bar-track"><div class="sg-bar-fill" style="width:97.9%;background:var(--green);"></div></div>
+        <div class="sg-bar-val">97.9%</div>
+      </div>
+      <div class="sg-bar-row">
+        <div class="sg-bar-label">NYU</div>
+        <div class="sg-bar-track"><div class="sg-bar-fill" style="width:95.2%;background:var(--blue);"></div></div>
+        <div class="sg-bar-val">95.2%</div>
+      </div>
+      <div class="sg-bar-row">
+        <div class="sg-bar-label">PITT</div>
+        <div class="sg-bar-track"><div class="sg-bar-fill" style="width:88.5%;background:var(--amber);"></div></div>
+        <div class="sg-bar-val">88.5%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn reveal">
+    <p><strong>Site variance is the most operationally significant finding.</strong> PITT sensitivity of 88.5% vs UM_1 at 98.5% is a 10 percentage point gap driven by scanner heterogeneity — different field strengths, voxel sizes, and acquisition protocols. The deployed system displays a site-specific reliability badge inline on every output. In a production deployment, site-specific calibration layers or harmonisation preprocessing (ComBat or equivalent) would be required before clinical use.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- XAI -->
+  <div class="reveal">
+    <p class="sec-label">Explainability</p>
+    <h2 id="xai">Dual-method spatial explanation — not just a number</h2>
+    <p class="h2-sub">GradCAM and LIME answer independent questions about the same prediction, then cross-validated for consistency.</p>
+  </div>
+
+  <p class="reveal">A clinical AI system that produces a probability without spatial justification is not a decision support system — it is a black box that clinicians cannot interrogate or trust. Every output from this system includes at minimum two independent explanation methods and an explicit uncertainty quantification that distinguishes genuine confidence from model overconfidence.</p>
+
+  <div class="xai-grid reveal">
+    <div class="xai-card">
+      <h4>Gradient-Weighted Class Activation Mapping (GradCAM)</h4>
+      <p>Backpropagates classification score gradients to the final convolutional layer (conv5). Produces a spatial heatmap showing which axial-slice regions contributed most to the ASD classification. Computationally fast (&lt;1s per slice). Documented limitation: gradient saturation at extreme confidence levels produces flat heatmaps — at 100% confidence, backpropagated gradients approach zero. The system flags this condition and falls back to LIME as the primary explanation source in high-confidence cases.</p>
+    </div>
+    <div class="xai-card">
+      <h4>LIME — Local Interpretable Model-Agnostic Explanations</h4>
+      <p>Segments the MRI slice into anatomical superpixels. Trains a local linear surrogate over 500 perturbed samples to identify which regions causally drive the prediction. Slower (~20s/slice on CPU). Independent of gradient flow — provides complementary causal evidence. Agreement between GradCAM and LIME across the top-25% activated regions (IoU) is computed and reported. Divergence between the two methods is itself a clinically meaningful signal flagged in the report.</p>
+    </div>
+    <div class="xai-card">
+      <h4>MC-Dropout Uncertainty Quantification</h4>
+      <p>Dropout2d layers remain active at inference. 30 stochastic forward passes produce a distribution over P(ASD), reported as mean ± σ. σ &lt; 0.02 = low uncertainty (reliable prediction). σ &gt; 0.08 = review flag. Critical finding: false negatives show σ = 0.150 (uncertainty correctly flags the miss). False positives show σ = 0.005 — the dangerous mode where the model is confidently wrong. Documented in the Model Card as a known failure mode requiring human override protocol.</p>
+    </div>
+    <div class="xai-card">
+      <h4>Anatomical Region Labelling + Agreement Analysis</h4>
+      <p>GradCAM centre-of-mass coordinates mapped to approximate anatomical region via heuristic z-position lookup (cerebellum/brainstem → temporal/basal ganglia → parietal/temporal → frontal). Labelled as heuristic in the clinical report. GradCAM-LIME cross-validation: Pearson r and IoU of top-25% activated regions computed across the test set. TC-correct predictions: r = 0.56, IoU = 0.44. FN case: r = −0.29 (anti-correlated explanation — high-priority clinical flag).</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- GOVERNANCE -->
+  <div class="reveal">
+    <p class="sec-label green">Governance & Regulatory Framing</p>
+    <h2 id="governance">Built for how clinical AI actually gets cleared</h2>
+    <p class="h2-sub">Model Card, regulatory pathway, and failure mode documentation built in — not added as an afterthought.</p>
+  </div>
+
+  <div class="two-col reveal">
+    <div>
+      <h3>Regulatory pathway (current status)</h3>
+      <p style="font-size:0.87rem;">This system falls into the <strong>SaMD Class II</strong> category under FDA Digital Health Center of Excellence guidance — software that analyses medical images to inform clinical decisions regarding a neurodevelopmental condition. De Novo pathway would likely be required given the novel indications-for-use in ASD neuroimaging.</p>
+      <p style="font-size:0.87rem;"><strong>Current status: research-grade only.</strong> Prerequisites before clinical submission: prospective multi-site validation on data independent of ABIDE-I, subject-level performance validation (not slice-level), neuroradiologist review of XAI saliency map anatomical claims, and a complete clinical evidence package. The system is designed with this pathway in mind — the documentation, subgroup analysis, and failure mode characterisation are structured to feed a regulatory submission, not just a conference paper.</p>
+    </div>
+    <div>
+      <h3>What the Model Card documents</h3>
+      <p style="font-size:0.87rem;">Intended use: research decision support only. Out-of-scope uses: standalone diagnostic decisions, non-structural MRI modalities, paediatric populations under 5. Training data limitations: ABIDE-I is retrospective, 85% male, and restricted to 17 academic sites. Known failure modes: confident false positives (σ near zero), GradCAM saturation at high confidence, site-specific performance gaps up to 10%. Sex performance gap: 2.4 percentage points, driven by training imbalance. Site reliability warnings are displayed inline on all outputs. Regulatory status is included verbatim in every exported PDF report.</p>
+    </div>
+  </div>
+
+  <div class="callout reveal">
+    <p><strong>The system is designed so that any clinician who downloads the report understands exactly what they are and are not holding.</strong> The PDF includes the regulatory framing, the model's sensitivity/specificity at the acquisition site, the uncertainty estimate, and an explicit statement that the output is decision support — not diagnosis. This is not a disclaimer added at the end; it is the primary purpose of the output layer.</p>
+  </div>
+
+  <hr class="divider">
+
+  <div class="reveal">
+    <h3>Technical stack</h3>
+    <div class="stack-list">
+      <span class="stk">PyTorch 2.11</span><span class="stk">Streamlit 1.56</span>
+      <span class="stk">nibabel</span><span class="stk">pytorch-grad-cam</span>
+      <span class="stk">lime</span><span class="stk">anthropic (Claude Haiku)</span>
+      <span class="stk">ReportLab</span><span class="stk">scikit-learn</span>
+      <span class="stk">scikit-image</span><span class="stk">OpenCV</span>
+      <span class="stk">matplotlib</span><span class="stk">pandas</span>
+      <span class="stk">HuggingFace Spaces</span><span class="stk">ABIDE-I Dataset</span>
+    </div>
+  </div>
+
+  <div class="pull-quote reveal" style="margin-top:3.5rem;">
+    <p>The gap between a model that achieves 99.4% AUC in a notebook and a system a clinician would trust is not a performance gap. It is an engineering gap — explainability, uncertainty quantification, calibration verification, site reliability documentation, and a clinical report that states exactly what the result is and what it is not.</p>
+    <div class="attrib">— The central design question this project answers</div>
+  </div>
+
+</div>
+
+<!-- BOTTOM CTA -->
+<div class="bottom-cta">
+  <div class="cta-left">
+    <h3>Upload your own NIfTI scan. See the full pipeline.</h3>
+    <p>The live system accepts any structural MRI in NIfTI format. All ABIDE-I demo subjects are pre-loaded. Full analysis notebooks, source code, and Model Card are on GitHub.</p>
+  </div>
+  <div class="cta-btns">
+    <a href="https://huggingface.co/spaces/TarunSadarla2606/asd-detection-demo" target="_blank" class="btn-primary">Live Demo →</a>
+    <a href="https://github.com/TarunSadarla2606/asd-detection-clinical-ai" target="_blank" class="btn-sec">GitHub ↗</a>
+  </div>
+</div>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), entry.target.dataset.delay || 0);
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.06 });
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.dataset.delay = (i % 4) * 70;
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
